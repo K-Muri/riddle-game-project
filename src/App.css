@@ -295,3 +295,8 @@ html, body {
   color: white;
   border: 2px solid #ffb3b3;
 }
+.hint-text {
+  margin-top: 12px;
+  font-style: italic;
+  color: #ffd966;
+}
