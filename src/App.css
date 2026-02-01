@@ -38,10 +38,9 @@
   align-items: flex-start;
 
 
-  /* GLASS BACKGROUND */
+  
   background: rgba(0, 0, 0, 0.55);
   backdrop-filter: blur(6px);
-
   box-shadow: 0 0 25px rgba(0, 255, 255, 0.2);
 }
 
@@ -285,6 +284,7 @@ html, body {
 }
 
 .wrong-answer {
+  animation: glow 1s;
   background: #e74c3c !important;
   color: #fff;
   border: 2px solid #e74c3c;
