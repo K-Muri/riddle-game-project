@@ -4,34 +4,70 @@ function RiddlePanel() {
   const riddles = [
     {
       question: "I have cities, but no houses. I have mountains, but no trees. I have water, but no fish. What am I?",
-      answers: ["A Map", "A Dream", "A Reflection"],
+      answers: [ "A Dream", "A Map","A Reflection", "A Painting"],
       correct: "A Map",
+      hint: "It is something you can hold in your hands.",
     },
     {
       question: "What has keys but can’t open locks?",
-      answers: ["A Piano", "A Door", "A Chest"],
+      answers: [ "A Door", "A Chest", "A Map","A Piano"],
       correct: "A Piano",
+      hint: "There are many in a single place.",
     },
     {
       question: "What runs but never walks?",
-      answers: ["A River", "A Dog", "A Clock"],
+      answers: ["A River", "A Dog", "A Clock", "A Shadow"],
       correct: "A River",
+      hint: "It is often found in nature.",
     },
     {
       question: "The more you take, the more you leave behind. What am I?",
-      answers: ["Footsteps", "Memories", "Air"],
+      answers: [ "Memories","Footsteps", "Air", "Time"],
       correct: "Footsteps",
+      hint: "Think about walking.",
     },
     {
       question: "What has a heart but no organs?",
-      answers: ["A Tree", "A City", "A Rock"],
+      answers: ["A Tree", "A City", "A Rock", "A Cloud"],
       correct: "A City",
+      hint: "It's a place where many people live.",
     },
+    {
+      question: "What has four legs in the morning, two legs in the afternoon, and three legs in the evening?",
+      answers: [ "A Cat", "A Human", "A Table", "A Dog"],
+      correct: "A Human",
+      hint: "Think about the stages of life.",
+    },
+    {
+      question: "What comes once in a minute, twice in a moment, but never in a thousand years?",
+      answers: [ "M", "A Second", "A Thought", "A Shadow"],
+      correct: "M",
+      hint: "It's something you can find in words.",
+    },
+    {
+      question:" I am yours, but others use me more than you do. What am I?",
+      answers: [ "Your Shadow","Your Name", "Your Time", "Your Voice"],
+      correct: "Your Name",
+      hint: "It's something that identifies you.",
+    },
+    {
+      question: "I can be tall, I can be short, I can be strong, I can be weak. What am I?",
+      answers: [ "A Tree", "A Building", "A Bridge", "A Candle"],
+      correct: "A Candle",
+      hint: "I only change when I am used.",
+    },
+    {
+      question: "What has to be broken before you can use it?",
+      answers: [ "A Seal", "An Egg", "A Code", "A Promise"],
+      correct: "An Egg",
+      hint: "It's something you often eat for breakfast.",
+    }
   ];
 
   const [index, setIndex] = useState(0);
   const [feedback, setFeedback] = useState("");
   const [score, setScore] = useState(0);
+  const [showHint, setShowHint] = useState(false);
   const [level, setLevel] = useState(1);
   const [triesLeft, setTriesLeft] = useState(2);
 
@@ -75,6 +111,8 @@ function RiddlePanel() {
     let newIndex = index;
     while (newIndex === index) {
       newIndex = Math.floor(Math.random() * riddles.length);
+      setShowHint(false);
+
     }
 
     setIndex(newIndex);
@@ -86,9 +124,12 @@ function RiddlePanel() {
   }
 
   function nextRiddle() {
+     setShowHint(false);
     if (index === riddles.length - 1) {
       setGameOver(true);
       return;
+     
+
     }
 
     setIndex(index + 1);
@@ -111,6 +152,12 @@ function RiddlePanel() {
     setGameOver(false);
     setWrongAnswer(null);
   }
+
+  function useHint() {
+  setShowHint(true);
+  setScore((prev) => Math.max(prev - 10, 0)); // optional point penalty
+}
+
 
   if (gameOver) {
     return (
@@ -159,6 +206,19 @@ function RiddlePanel() {
         <div className="status-bar">Tries left: {triesLeft}</div>
 
         <div className="riddle-text">{currentRiddle.question}</div>
+
+        {!showHint && (
+  <button className="answer-btn" onClick={useHint}>
+    💡 Hint (-10 points)
+  </button>
+)}
+
+{showHint && (
+  <p className="hint-text">
+    Hint: {currentRiddle.hint}
+  </p>
+)}
+
 
         {currentRiddle.answers.map((ans) => {
           let btnClass = "answer-btn";
